@@ -19,8 +19,7 @@ jobs:
           [xml]$proj = Get-Content VNyanAdaptiveLighting.csproj
           $version = $proj.Project.PropertyGroup.Version | Where-Object { $_ }
           $tag = "v$version"
-          gh release view $tag *> $null
-          $exists = $LASTEXITCODE -eq 0
+          $exists = (gh release list --json tagName --jq ".[].tagName") -contains $tag
           "tag=$tag" >> $env:GITHUB_OUTPUT
           "new=$((-not $exists).ToString().ToLower())" >> $env:GITHUB_OUTPUT
         env:
