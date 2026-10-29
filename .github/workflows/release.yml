@@ -1,8 +1,7 @@
 name: Release
 
 on:
-  push:
-    tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -13,18 +12,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 10.0.x
-
-      - name: Check tag matches project version
+      - name: Read version and check for an existing release
+        id: ver
         shell: pwsh
         run: |
           [xml]$proj = Get-Content VNyanAdaptiveLighting.csproj
           $version = $proj.Project.PropertyGroup.Version | Where-Object { $_ }
-          if ("v$version" -ne $env:GITHUB_REF_NAME) { throw "Tag $env:GITHUB_REF_NAME does not match project version $version" }
+          $tag = "v$version"
+          gh release view $tag *> $null
+          $exists = $LASTEXITCODE -eq 0
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+          "new=$((-not $exists).ToString().ToLower())" >> $env:GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - uses: actions/setup-dotnet@v4
+        if: steps.ver.outputs.new == 'true'
+        with:
+          dotnet-version: 10.0.x
 
       - name: Fetch VNyan assemblies
+        if: steps.ver.outputs.new == 'true'
         uses: actions/checkout@v4
         with:
           repository: LuunaVR/VNyan-Libs
@@ -32,16 +40,20 @@ jobs:
           path: libs/VNyan
 
       - name: Build and test
+        if: steps.ver.outputs.new == 'true'
         run: |
           dotnet build VNyanAdaptiveLighting.sln -c Release
           dotnet test VNyanAdaptiveLighting.sln -c Release --no-build
 
       - name: Package
+        if: steps.ver.outputs.new == 'true'
         shell: pwsh
-        run: Compress-Archive -Path dist\VNyanAdaptiveLighting.dll -DestinationPath "VNyanAdaptiveLighting-$env:GITHUB_REF_NAME.zip"
+        run: Compress-Archive -Path dist\VNyanAdaptiveLighting.dll -DestinationPath "VNyanAdaptiveLighting-${{ steps.ver.outputs.tag }}.zip"
 
       - name: Publish release
+        if: steps.ver.outputs.new == 'true'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.ver.outputs.tag }}
           files: VNyanAdaptiveLighting-*.zip
           generate_release_notes: true
