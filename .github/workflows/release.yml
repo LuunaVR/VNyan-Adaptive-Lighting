@@ -44,15 +44,10 @@ jobs:
           dotnet build VNyanAdaptiveLighting.sln -c Release
           dotnet test VNyanAdaptiveLighting.sln -c Release --no-build
 
-      - name: Package
-        if: steps.ver.outputs.new == 'true'
-        shell: pwsh
-        run: Compress-Archive -Path dist\VNyanAdaptiveLighting.dll -DestinationPath "VNyanAdaptiveLighting-${{ steps.ver.outputs.tag }}.zip"
-
       - name: Publish release
         if: steps.ver.outputs.new == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.ver.outputs.tag }}
-          files: VNyanAdaptiveLighting-*.zip
+          files: dist/VNyanAdaptiveLighting.dll
           generate_release_notes: true

@@ -10,8 +10,8 @@ A VNyan plugin that adjusts your avatar's lighting to match your game, so you lo
 
 ## Install
 
-1. Download the zip from the [latest release](https://github.com/LuunaVR/VNyan-Adaptive-Lighting/releases/latest).
-2. Close VNyan, then extract `VNyanAdaptiveLighting.dll` into `VNyan\Items\Assemblies`.
+1. Download `VNyanAdaptiveLighting.dll` from the [latest release](https://github.com/LuunaVR/VNyan-Adaptive-Lighting/releases/latest).
+2. Close VNyan, then put the DLL in `VNyan\Items\Assemblies`.
 3. Start VNyan.
 
 ## OBS setup
