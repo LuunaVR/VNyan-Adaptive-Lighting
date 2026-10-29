@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+.idea/
+*.iml
+*.user
+TestResults/
+dist/
+libs/
+local.props

@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="local.props" Condition="Exists('local.props')" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>VNyanAdaptiveLighting</AssemblyName>
+    <RootNamespace>VNyanAdaptiveLighting</RootNamespace>
+    <Version>1.0.0</Version>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <DebugType>portable</DebugType>
+    <!-- Point this at your VNyan install: -p:VNyanDir="D:\VNyan", the VNYAN_DIR environment variable, or a local.props file. -->
+    <VNyanDir Condition="'$(VNyanDir)' == '' And '$(VNYAN_DIR)' != ''">$(VNYAN_DIR)</VNyanDir>
+    <VNyanDir Condition="'$(VNyanDir)' == ''">$(MSBuildProjectDirectory)\libs\VNyan</VNyanDir>
+    <ManagedDir>$(VNyanDir)\VNyan_Data\Managed</ManagedDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Plugin\**\*.cs;Capture\**\*.cs;Lighting\**\*.cs;Configuration\**\*.cs;UI\**\*.cs;Diagnostics\**\*.cs" />
+  </ItemGroup>
+
+  <!-- Compile-time references only; VNyan supplies these at runtime. Private=false keeps them out of the output. -->
+  <ItemGroup>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(ManagedDir)\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(ManagedDir)\UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UIModule"><HintPath>$(ManagedDir)\UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="VNyanInterface"><HintPath>$(ManagedDir)\VNyanInterface.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Klak.Spout.Runtime"><HintPath>$(ManagedDir)\Klak.Spout.Runtime.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Newtonsoft.Json"><HintPath>$(ManagedDir)\Newtonsoft.Json.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+  <Target Name="CopyToDist" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)VNyanAdaptiveLighting.dll;$(OutputPath)VNyanAdaptiveLighting.pdb" DestinationFolder="$(MSBuildProjectDirectory)\dist" />
+  </Target>
+
+</Project>
