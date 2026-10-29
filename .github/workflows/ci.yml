@@ -15,19 +15,12 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
-      # The plugin compiles against VNyan's own assemblies, which cannot be stored in this repository.
-      # VNYAN_LIBS_URL is a secret holding a download link to a zip of VNyan's VNyan_Data\Managed assemblies
-      # (UnityEngine.CoreModule, UnityEngine.UI, UnityEngine.UIModule, VNyanInterface, Klak.Spout.Runtime, Newtonsoft.Json).
       - name: Fetch VNyan assemblies
-        shell: pwsh
-        env:
-          VNYAN_LIBS_URL: ${{ secrets.VNYAN_LIBS_URL }}
-        run: |
-          if (-not $env:VNYAN_LIBS_URL) { throw 'Secret VNYAN_LIBS_URL is not set.' }
-          $dir = Join-Path $PWD 'libs\VNyan\VNyan_Data\Managed'
-          New-Item -ItemType Directory -Force $dir | Out-Null
-          Invoke-WebRequest $env:VNYAN_LIBS_URL -OutFile libs.zip
-          Expand-Archive libs.zip -DestinationPath $dir -Force
+        uses: actions/checkout@v4
+        with:
+          repository: LuunaVR/VNyan-Libs
+          token: ${{ secrets.LIBS_TOKEN }}
+          path: libs/VNyan
 
       - name: Build
         run: dotnet build VNyanAdaptiveLighting.sln -c Release

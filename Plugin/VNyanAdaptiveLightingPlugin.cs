@@ -20,7 +20,7 @@ namespace VNyanAdaptiveLighting.Plugin
         private bool _initialized;
 
         public string PluginName => "VNyanAdaptiveLighting";
-        public string Version => "1.0.0";
+        public string Version => PluginInfo.Version;
         public string Title => "VNyan Adaptive Lighting";
         public string Author => "Luuna";
         public string Website => "https://github.com/LuunaVR/VNyan-Adaptive-Lighting";

@@ -11,7 +11,7 @@ namespace VNyanAdaptiveLighting.Configuration
     /// <summary>User-facing settings. Call <see cref="Validate"/> after any external change.</summary>
     public sealed class AdaptiveLightingSettings
     {
-        public const string DefaultSenderName = "VNyan_AvatarLighting";
+        public const string DefaultSenderName = "VNyanAdaptiveLighting_Spout";
 
         public bool PluginEnabled { get; set; } = true;
         public string SpoutSenderName { get; set; } = DefaultSenderName;

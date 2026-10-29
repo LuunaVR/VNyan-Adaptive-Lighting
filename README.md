@@ -4,41 +4,27 @@ A VNyan plugin that adjusts your avatar's lighting to match your game, so you lo
 
 ## Requirements
 
-- VNyan
-- OBS Studio with the [Spout2 plugin for OBS](https://github.com/Off-World-Live/obs-spout2-plugin)
+- [VNyan](https://suvidriel.itch.io/vnyan)
+- [OBS Studio](https://obsproject.com/)
+- [Spout2 Plugin](https://github.com/Off-World-Live/obs-spout2-plugin)
 
 ## Install
 
-1. Download `VNyanAdaptiveLighting.zip` from the [latest release](https://github.com/LuunaVR/VNyan-Adaptive-Lighting/releases/latest).
+1. Download the zip from the [latest release](https://github.com/LuunaVR/VNyan-Adaptive-Lighting/releases/latest).
 2. Close VNyan, then extract `VNyanAdaptiveLighting.dll` into `VNyan\Items\Assemblies`.
-3. Start VNyan and open **Plugins → VNyan Adaptive Lighting**.
+3. Start VNyan.
 
 ## OBS setup
 
-1. Add a source that shows your game, such as a Display Capture of the game's monitor.
+1. Add or use an existing source, such as a Game Capture or Display Capture.
+   - Its average brightness drives the lighting.
 2. Right-click it, choose **Filters**, and add a **Spout Filter** under Effect Filters.
-3. Set the sender name to `VNyan_AvatarLighting`.
-4. In the plugin's **Source** tab, pick that sender from the dropdown.
+3. Set the sender name to `VNyanAdaptiveLighting_Spout`.
+4. In VNyan, open **Plugins** and select **VNyan Adaptive Lighting**.
+5. On the **Source** tab, select your sender.
 
-Tips:
+## License
 
-- If the source is only used for lighting, put it in its own scene that you never show on stream and cover it with a Color Source.
-- Delay filters on a source also delay the lighting. Use a separate source without delay for the Spout Filter.
-- The source has to be visible somewhere in OBS, or it stops sending.
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE)
 
-## Settings
-
-| Setting | What it does |
-| --- | --- |
-| Mode | Monochromatic uses neutral white light. Colored lets screen colors tint the avatar slightly. |
-| Minimum | Brightness when the screen is black. |
-| Normal | Brightness for an ordinary scene. Also used when there is no signal. |
-| Maximum | Brightness when the screen is white. |
-| Smoothness | Higher values change the lighting more slowly. |
-| Color influence | How strongly colors tint the avatar in Colored mode. |
-
-Settings apply immediately and are saved automatically. The **Debug** tab has live values and test buttons.
-
-## Notes
-
-VNyan has no brightness control for plugins, so the plugin scales the scene's lights and ambient light. Anything else lit by those lights, such as props, changes with the avatar. Unlit and baked lighting is not affected.
+Free to use and modify, not for commercial use. Modified versions must use the same license.

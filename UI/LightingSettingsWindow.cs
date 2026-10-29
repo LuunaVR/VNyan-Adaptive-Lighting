@@ -55,8 +55,6 @@ namespace VNyanAdaptiveLighting.UI
             public IVNyanUIContentPanel Panel;
             public RectTransform Rt;
             public IVNyanUIButton Tab;
-            public Image TabImage;
-            public Color TabColor;
         }
 
         private readonly AdaptiveLightingHost _host;
@@ -626,7 +624,7 @@ namespace VNyanAdaptiveLighting.UI
         private void BuildSettings(Card c)
         {
             CardButton(c, "Reset to defaults", Pad, c.Y, c.W, () => { _mgr.ResetToDefaults(Time.unscaledTime); RefreshFromSettings(); }); c.Y += 34;
-
+            CardLabel(c, "Version " + PluginInfo.Version, Pad, c.Y, c.W); c.Y += RowH;
         }
 
         private readonly IVNyanUIButton[] _testButtons = new IVNyanUIButton[5];

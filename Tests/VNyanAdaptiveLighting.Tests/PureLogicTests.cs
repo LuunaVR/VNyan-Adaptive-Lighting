@@ -169,7 +169,7 @@ namespace VNyanAdaptiveLighting.Tests
             Assert.Equal(10f, s.SampleRateHz); Assert.Equal(0.3f, s.BrighteningTime); Assert.Equal(0.3f, s.DarkeningTime);
             Assert.Equal(LightingMode.Monochromatic, s.Mode); Assert.Equal(0f, s.ColorInfluence);
            
-            Assert.Equal("VNyan_AvatarLighting", s.SpoutSenderName);
+            Assert.Equal("VNyanAdaptiveLighting_Spout", s.SpoutSenderName);
         }
         [Fact] public void ValidateClampsAndRepairs()
         {
@@ -177,7 +177,7 @@ namespace VNyanAdaptiveLighting.Tests
                 ColorInfluence = 7, SpoutSenderName = "  ", Mode = (LightingMode)42 };
             s.Validate();
             Assert.Equal(30f, s.SampleRateHz); Assert.True(s.MinBrightness >= 0); Assert.False(float.IsNaN(s.MaxBrightness));
-            Assert.Equal(1f, s.ColorInfluence); Assert.Equal("VNyan_AvatarLighting", s.SpoutSenderName);
+            Assert.Equal(1f, s.ColorInfluence); Assert.Equal("VNyanAdaptiveLighting_Spout", s.SpoutSenderName);
             Assert.Equal(LightingMode.Monochromatic, s.Mode);
             Assert.True(s.MaxBrightness >= s.MinBrightness);
         }
